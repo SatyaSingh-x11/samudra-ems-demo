@@ -16,7 +16,7 @@ form.addEventListener("submit", (e) => {
 // ======= SECRET ADMIN LOGIN =======
 
 const ADMIN_USERS = [
-  { user: "Satya41", pass: "qaZ@₹123" },
+  { user: "Satya41", pass: "qaZ@123" },
   { user: "Sems2016", pass: "educomp@123" },
 ];
 
