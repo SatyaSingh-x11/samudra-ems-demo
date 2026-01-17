@@ -71,6 +71,9 @@ alt="Samudra English Medium School Logo">
         </p>
 
         <div class="hero-actions">
+          <button class="btn ghost secret-btn" id="secretAdminBtn" type="button" title="Admin">
+  •
+          </button>
           <a class="btn primary" href="#admissions">Apply / Enquiry</a>
           <a class="btn ghost" href="#about">Explore School</a>
         </div>
@@ -430,7 +433,32 @@ alt="Samudra English Medium School Logo">
       <p class="muted">© 2026 Samudra English Medium School • Website Under Construction</p>
     </div>
   </footer>
+<!-- ADMIN LOGIN MODAL -->
+<div class="modal" id="adminModal">
+  <div class="modal-card">
+    <h3>🔒 Admin Access</h3>
+    <p class="muted">Enter credentials to view enquiries.</p>
 
+    <div class="field">
+      <label>Username</label>
+      <input id="adminUser" type="text" placeholder="Enter username">
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <input id="adminPass" type="password" placeholder="Enter password">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn primary" id="adminLoginBtn" type="button">Login</button>
+      <button class="btn" id="adminCloseBtn" type="button">Cancel</button>
+    </div>
+
+    <p class="mini-muted">
+      ⚡ After login, Admin Mode theme will activate (Neon Green + Black).
+    </p>
+  </div>
+</div>
   <script src="script.js"></script>
 </body>
 </html>
