@@ -49,8 +49,8 @@ adminCloseBtn.addEventListener("click", () => {
 });
 
 adminLoginBtn.addEventListener("click", () => {
-  const u = document.getElementById("adminUser").value.trim();
-  const p = document.getElementById("adminPass").value.trim();
+  const u = document.getElementById("adminUser").value.normalize("NFKC").trim();
+const p = document.getElementById("adminPass").value.normalize("NFKC").trim();
 
   const ok = ADMIN_USERS.some(x => x.user === u && x.pass === p);
 
