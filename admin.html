@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEMS Admin Panel</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="admin-page">
+
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <span class="badge">🔒 Admin Panel</span>
+      <span class="topbar-text">Manage Events • Photos • Thoughts • Reviews</span>
+      <div class="topbar-actions">
+        <a class="mini-link" href="index.html#home">Home</a>
+        <a class="mini-link" href="events.html">Events</a>
+        <a class="mini-link" href="gallery.html">Gallery</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html#home">
+        <img class="brand-logo" src="./assets/logo.png" onerror="this.style.display='none'" alt="SEMS Logo">
+        <div class="brand-text">
+          <div class="brand-title">SEMS Admin</div>
+          <div class="brand-sub">Website 2.0 Control Center</div>
+        </div>
+      </a>
+
+      <nav class="navlinks">
+        <a href="index.html#home">Home</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+        <a class="nav-cta" href="javascript:void(0)" id="logoutBtn">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Dashboard</h2>
+        <p>Everything here is free. For permanent updates, edit <b>data.js</b>.</p>
+      </div>
+
+      <div class="admin-wrap">
+
+        <div class="admin-panel">
+          <h3>➕ Add Event</h3>
+          <div class="field">
+            <label>Title *</label>
+            <input id="evTitle" type="text" placeholder="Example: Annual Day">
+          </div>
+
+          <div class="field">
+            <label>Date *</label>
+            <input id="evDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Description *</label>
+            <textarea id="evDesc" rows="4" placeholder="Write event details..."></textarea>
+          </div>
+
+          <div class="field">
+            <label>Event Photos (multiple links, 1 per line)</label>
+            <textarea id="evPhotos" rows="4" placeholder="Paste Google Drive public image links here..."></textarea>
+          </div>
+
+          <div class="field">
+            <label><input id="evFeatured" type="checkbox"> Featured Event 🔥</label>
+          </div>
+
+          <button class="btn primary full" id="addEventBtn" type="button">Add Event</button>
+
+          <p class="admin-mini" style="margin-top:10px;">
+            ✅ Google Drive tip: Make image <b>public</b> → copy direct view link.
+          </p>
+        </div>
+
+        <div class="admin-panel">
+          <h3>🧾 Current Events</h3>
+          <div id="adminEventsList"></div>
+        </div>
+
+        <div class="admin-panel">
+          <h3>💡 Thought of the Day</h3>
+          <div class="field">
+            <label>Thought text</label>
+            <input id="thoughtInput" type="text" placeholder="Example: मेहनत ही सफलता है 🔥">
+          </div>
+          <button class="btn primary full" id="updateThoughtBtn" type="button">Update Thought</button>
+        </div>
+
+        <div class="admin-panel">
+          <h3>⭐ Add Parent Review (Manual)</h3>
+          <div class="field">
+            <label>Parent Name</label>
+            <input id="revName" type="text" placeholder="Example: Parent">
+          </div>
+          <div class="field">
+            <label>Stars</label>
+            <select id="revStars">
+              <option value="5">5 ⭐</option>
+              <option value="4">4 ⭐</option>
+              <option value="3">3 ⭐</option>
+              <option value="2">2 ⭐</option>
+              <option value="1">1 ⭐</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Review Text</label>
+            <textarea id="revText" rows="3" placeholder="Write parent feedback..."></textarea>
+          </div>
+          <button class="btn primary full" id="addReviewBtn" type="button">Add Review</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script src="data.js"></script>
+  <script src="admin.js?v=10"></script>
+</body>
+  </html>
