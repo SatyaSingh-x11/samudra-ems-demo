@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Events | Samudra English Medium School</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <span class="badge">📢 Events</span>
+      <span class="topbar-text">Programs • Tours • Celebrations</span>
+      <div class="topbar-actions">
+        <a class="mini-link" href="index.html#home">Home</a>
+        <a class="mini-link" href="gallery.html">Gallery</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html#home">
+        <img class="brand-logo" src="./assets/logo.png" onerror="this.style.display='none'" alt="SEMS Logo">
+        <div class="brand-text">
+          <div class="brand-title">Samudra English Medium School</div>
+          <div class="brand-sub">A Sea of Knowledge</div>
+        </div>
+      </a>
+
+      <nav class="navlinks">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#about">About</a>
+        <a class="nav-cta" href="index.html#admissions">Admissions</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>All Events</h2>
+        <p>Latest updates and school memories.</p>
+      </div>
+
+      <div id="eventsList" class="events"></div>
+    </div>
+  </section>
+
+  <script src="data.js"></script>
+  <script>
+    const DATA = window.SEMS_DATA || { events: [] };
+    const list = document.getElementById("eventsList");
+
+    function escapeHtml(str){
+      return String(str ?? "").replace(/[&<>"']/g, (m) => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    function render(){
+      const events = (DATA.events || []).slice().reverse();
+
+      if(events.length === 0){
+        list.innerHTML = `<div class="card"><h3>No events yet ✅</h3><p class="muted">Admin will add events soon.</p></div>`;
+        return;
+      }
+
+      list.innerHTML = "";
+      events.forEach(ev => {
+        const div = document.createElement("div");
+        div.className = "event";
+
+        const photos = (ev.photos || []).slice(0, 3).map(url => `
+          <img class="gimg" style="height:120px" src="${escapeHtml(url)}" alt="Event Photo" onerror="this.style.display='none'">
+        `).join("");
+
+        div.innerHTML = `
+          <div class="event-tag">📌</div>
+          <div style="width:100%">
+            <h3>${escapeHtml(ev.title)} ${ev.featured ? "🔥" : ""}</h3>
+            <p class="muted"><b>${escapeHtml(ev.date)}</b></p>
+            <p>${escapeHtml(ev.desc)}</p>
+            ${ev.featured ? `<span class="badge-featured">Featured</span>` : ""}
+            ${photos ? `<div class="gallery-grid" style="grid-template-columns:repeat(3,1fr); margin-top:12px;">${photos}</div>` : ""}
+          </div>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    render();
+  </script>
+</body>
+</html>
