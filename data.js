@@ -1,26 +1,32 @@
-// data.js (Website 2.0 database)
+// data.js — SEMS Website 2.2 Database (FREE)
 
 window.SEMS_DATA = {
+  // ✅ HERO BACKGROUND PHOTO (PHOTO + BLUR OVERLAY)
+  // Put 1 nice school photo link here (Google Drive public image link)
+  heroPhoto: "",
+
+  // ✅ Thought of the Day (Admin can change)
   thoughts: [
-    "Discipline today = success tomorrow 🔥",
-    "A sea of knowledge begins with one book 📚",
+    "Discipline today = success tomorrow 🔥"
   ],
 
+  // ✅ Parent Reviews (Manual admin entry)
   reviews: [
-    { name: "Parent", stars: 5, text: "Good school and supportive teachers." },
-    { name: "Parent", stars: 5, text: "Nice discipline and good improvement in my child." },
+    { name: "Parent", stars: 5, text: "Good teaching and disciplined environment." },
+    { name: "Parent", stars: 5, text: "My child is improving day by day. Thank you SEMS!" },
+    { name: "Parent", stars: 4, text: "Nice school and supportive staff." }
   ],
 
+  // ✅ Events (multiple images allowed)
   events: [
     {
       id: "ev1",
       title: "Annual Sports Day",
       date: "2026-01-01",
       featured: true,
-      desc: "A day full of energy, team spirit, and student performances.",
+      desc: "A day full of energy, team spirit and student confidence building.",
       photos: [
-        // Put Google Drive direct/public image links here
-        // Example: "https://drive.google.com/uc?export=view&id=FILE_ID"
+        // Paste Google Drive public image links (1 per line later)
       ]
     },
     {
@@ -28,8 +34,14 @@ window.SEMS_DATA = {
       title: "Cultural Program",
       date: "2026-02-01",
       featured: false,
-      desc: "Celebrating talent through dance, music and stage programs.",
+      desc: "Celebrating talent through dance, music and stage performances.",
       photos: []
     }
+  ],
+
+  // ✅ Gallery (separate gallery page can use this)
+  // You can add standalone photos too (not only event photos)
+  gallery: [
+    // Paste image links here if needed
   ]
 };
