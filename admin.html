@@ -9,25 +9,22 @@
 
 <body class="admin-page">
 
+  <!-- TOPBAR (NO LINKS) -->
   <div class="topbar">
     <div class="container topbar-inner">
       <span class="badge">🔒 Admin Panel</span>
       <span class="topbar-text">Manage Events • Photos • Thoughts • Reviews</span>
-      <div class="topbar-actions">
-        <a class="mini-link" href="index.html#home">Home</a>
-        <a class="mini-link" href="events.html">Events</a>
-        <a class="mini-link" href="gallery.html">Gallery</a>
-      </div>
     </div>
   </div>
 
+  <!-- NAVBAR -->
   <header class="navbar">
     <div class="container nav-inner">
       <a class="brand" href="index.html#home">
         <img class="brand-logo" src="./assets/logo.png" onerror="this.style.display='none'" alt="SEMS Logo">
         <div class="brand-text">
           <div class="brand-title">SEMS Admin</div>
-          <div class="brand-sub">Website 2.0 Control Center</div>
+          <div class="brand-sub">Website Control Center</div>
         </div>
       </a>
 
@@ -44,13 +41,20 @@
     <div class="container">
       <div class="section-head">
         <h2>Dashboard</h2>
-        <p>Everything here is free. For permanent updates, edit <b>data.js</b>.</p>
+        <p>
+          ✅ Admin changes work instantly on your device. <br>
+          ⚠️ To publish permanently for everyone: use <b>Export Data</b> and paste into <b>data.js</b>.
+        </p>
       </div>
 
       <div class="admin-wrap">
 
+        <!-- EVENTS ADD/EDIT -->
         <div class="admin-panel">
-          <h3>➕ Add Event</h3>
+          <h3>📌 Add / Edit Event</h3>
+
+          <input type="hidden" id="editEventId" />
+
           <div class="field">
             <label>Title *</label>
             <input id="evTitle" type="text" placeholder="Example: Annual Day">
@@ -75,18 +79,21 @@
             <label><input id="evFeatured" type="checkbox"> Featured Event 🔥</label>
           </div>
 
-          <button class="btn primary full" id="addEventBtn" type="button">Add Event</button>
+          <button class="btn primary full" id="saveEventBtn" type="button">Save Event</button>
+          <button class="btn full" id="clearEventBtn" type="button" style="margin-top:10px;">Clear Form</button>
 
           <p class="admin-mini" style="margin-top:10px;">
-            ✅ Google Drive tip: Make image <b>public</b> → copy direct view link.
+            ✅ Google Drive tip: Make image <b>public</b> → copy link → convert to <b>uc?export=view</b> format.
           </p>
         </div>
 
+        <!-- EVENTS LIST -->
         <div class="admin-panel">
-          <h3>🧾 Current Events</h3>
+          <h3>🧾 Manage Events</h3>
           <div id="adminEventsList"></div>
         </div>
 
+        <!-- THOUGHT -->
         <div class="admin-panel">
           <h3>💡 Thought of the Day</h3>
           <div class="field">
@@ -96,8 +103,9 @@
           <button class="btn primary full" id="updateThoughtBtn" type="button">Update Thought</button>
         </div>
 
+        <!-- REVIEWS -->
         <div class="admin-panel">
-          <h3>⭐ Add Parent Review (Manual)</h3>
+          <h3>⭐ Add Parent Review</h3>
           <div class="field">
             <label>Parent Name</label>
             <input id="revName" type="text" placeholder="Example: Parent">
@@ -117,6 +125,37 @@
             <textarea id="revText" rows="3" placeholder="Write parent feedback..."></textarea>
           </div>
           <button class="btn primary full" id="addReviewBtn" type="button">Add Review</button>
+
+          <div style="margin-top:12px;">
+            <div class="admin-mini">Recent Reviews:</div>
+            <div id="reviewListMini"></div>
+          </div>
+        </div>
+
+        <!-- GALLERY -->
+        <div class="admin-panel">
+          <h3>📸 Manage Gallery</h3>
+
+          <div class="field">
+            <label>Add Gallery Image Link</label>
+            <input id="galleryLink" type="text" placeholder="Paste image link">
+          </div>
+
+          <button class="btn primary full" id="addGalleryBtn" type="button">Add to Gallery</button>
+
+          <div style="margin-top:12px;">
+            <div class="admin-mini">Gallery Images:</div>
+            <div id="galleryListMini"></div>
+          </div>
+        </div>
+
+        <!-- EXPORT -->
+        <div class="admin-panel">
+          <h3>⬇️ Export Data</h3>
+          <p class="admin-mini">
+            Download your updated data file and paste into <b>data.js</b> for permanent changes.
+          </p>
+          <button class="btn primary full" id="exportBtn" type="button">Export Updated Data</button>
         </div>
 
       </div>
@@ -124,6 +163,6 @@
   </section>
 
   <script src="data.js"></script>
-  <script src="admin.js?v=10"></script>
+  <script src="admin.js?v=20"></script>
 </body>
-  </html>
+</html>
