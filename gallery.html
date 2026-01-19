@@ -8,17 +8,16 @@
 </head>
 
 <body>
+
+  <!-- TOP NOTICE (NO LINKS) -->
   <div class="topbar">
     <div class="container topbar-inner">
       <span class="badge">📸 Gallery</span>
-      <span class="topbar-text">School Memories</span>
-      <div class="topbar-actions">
-        <a class="mini-link" href="index.html#home">Home</a>
-        <a class="mini-link" href="events.html">Events</a>
-      </div>
+      <span class="topbar-text">School Memories & Moments</span>
     </div>
   </div>
 
+  <!-- NAVBAR -->
   <header class="navbar">
     <div class="container nav-inner">
       <a class="brand" href="index.html#home">
@@ -37,11 +36,12 @@
     </div>
   </header>
 
+  <!-- GALLERY -->
   <section class="section">
     <div class="container">
       <div class="section-head">
         <h2>Gallery</h2>
-        <p>Photos from events (auto picked from event photos).</p>
+        <p>Photos are automatically picked from Events + Gallery database.</p>
       </div>
 
       <div id="galleryGrid" class="gallery-grid"></div>
@@ -50,19 +50,36 @@
 
   <script src="data.js"></script>
   <script>
-    const DATA = window.SEMS_DATA || { events: [] };
+    const DATA = window.SEMS_DATA || { events: [], gallery: [] };
     const grid = document.getElementById("galleryGrid");
 
-    const allPhotos = [];
-    (DATA.events || []).forEach(ev => (ev.photos || []).forEach(p => allPhotos.push(p)));
+    // Collect photos from events + gallery array
+    const photos = [];
 
-    if(allPhotos.length === 0){
-      grid.innerHTML = `<div class="card"><h3>No photos yet ✅</h3><p class="muted">Admin will add event photos soon.</p></div>`;
+    // Event photos
+    (DATA.events || []).forEach(ev => {
+      (ev.photos || []).forEach(p => photos.push(p));
+    });
+
+    // Extra gallery photos
+    (DATA.gallery || []).forEach(p => photos.push(p));
+
+    // Remove duplicates
+    const unique = [...new Set(photos)].filter(Boolean);
+
+    if(unique.length === 0){
+      grid.innerHTML = `
+        <div class="card">
+          <h3>No photos yet ✅</h3>
+          <p class="muted">Admin will add event photos soon.</p>
+        </div>
+      `;
     } else {
-      grid.innerHTML = allPhotos.map(url => `
+      grid.innerHTML = unique.map(url => `
         <img class="gimg" src="${url}" alt="School Photo" onerror="this.style.display='none'">
       `).join("");
     }
   </script>
+
 </body>
-  </html>
+</html>
