@@ -6,19 +6,18 @@
   <title>Events | Samudra English Medium School</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
+  <!-- TOP NOTICE (NO LINKS) -->
   <div class="topbar">
     <div class="container topbar-inner">
       <span class="badge">📢 Events & Tours</span>
       <span class="topbar-text">Programs • Celebrations • Student Life</span>
-      <div class="topbar-actions">
-        <a class="mini-link" href="index.html#home">Home</a>
-        <a class="mini-link" href="gallery.html">Gallery</a>
-      </div>
     </div>
   </div>
 
+  <!-- NAVBAR -->
   <header class="navbar">
     <div class="container nav-inner">
       <a class="brand" href="index.html#home">
@@ -30,13 +29,14 @@
       </a>
 
       <nav class="navlinks">
-        <a href="index.html#about">About</a>
+        <a href="index.html#home">Home</a>
         <a href="gallery.html">Gallery</a>
         <a class="nav-cta" href="index.html#admissions">Admissions</a>
       </nav>
     </div>
   </header>
 
+  <!-- EVENTS LIST -->
   <section class="section">
     <div class="container">
       <div class="section-head">
@@ -66,7 +66,7 @@
         list.innerHTML = `
           <div class="card">
             <h3>No events posted yet ✅</h3>
-            <p>Admin will update school events soon.</p>
+            <p class="muted">Admin will update school events soon.</p>
           </div>
         `;
         return;
@@ -75,9 +75,12 @@
       list.innerHTML = "";
       events.forEach(ev=>{
         const photos = (ev.photos || []).slice(0, 6);
+
         const photosHtml = photos.length
           ? `<div class="event-photos">
-              ${photos.map(url=>`<img class="gimg" src="${esc(url)}" alt="Event photo" onerror="this.style.display='none'">`).join("")}
+              ${photos.map(url =>
+                `<img class="gimg" src="${esc(url)}" alt="Event photo" onerror="this.style.display='none'">`
+              ).join("")}
             </div>`
           : "";
 
@@ -87,14 +90,17 @@
           <div class="event-tag">📌</div>
           <div style="width:100%">
             <h3>${esc(ev.title)} ${ev.featured ? "🔥" : ""}</h3>
-            <p style="margin:6px 0 10px; color:#5b6b85; font-weight:800;">
+            <p style="margin:6px 0 10px; color:#5b6b85; font-weight:900;">
               ${esc(ev.date)}
             </p>
-            <p style="margin:0; color:#5b6b85; line-height:1.7;">${esc(ev.desc)}</p>
+            <p style="margin:0; color:#5b6b85; line-height:1.7; font-weight:650;">
+              ${esc(ev.desc)}
+            </p>
             ${ev.featured ? `<span class="badge-featured">Featured</span>` : ""}
             ${photosHtml}
           </div>
         `;
+
         list.appendChild(div);
       });
     }
