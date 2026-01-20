@@ -131,3 +131,50 @@ if(adminLoginBtn){
     }
   });
 }
+// ===== SIGNATURE MODE (Tap logo 5 times) =====
+(function(){
+  const logo = document.getElementById("logoTap");
+  if(!logo) return;
+
+  let tapCount = 0;
+  let tapTimer = null;
+
+  function showSignature(){
+    let toast = document.querySelector(".signature-toast");
+    if(!toast){
+      toast = document.createElement("div");
+      toast.className = "signature-toast";
+      toast.innerHTML = `
+        ⚡ Built by <b>Satya </b> (Class 10)
+        <small>Project: SEMS Demo Website • Hosted on GitHub Pages</small>
+        <small>
+          Repo:
+          <a href="https://github.com/satyasingh-x11/samudra-ems-demo" target="_blank">
+            github.com/satyasingh-x11/samudra-ems-demo
+          </a>
+        </small>
+      `;
+      document.body.appendChild(toast);
+    }
+
+    toast.style.display = "block";
+
+    setTimeout(() => {
+      toast.style.display = "none";
+    }, 5500);
+  }
+
+  logo.addEventListener("click", () => {
+    tapCount++;
+
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => {
+      tapCount = 0;
+    }, 900);
+
+    if(tapCount >= 5){
+      tapCount = 0;
+      showSignature();
+    }
+  });
+})();
