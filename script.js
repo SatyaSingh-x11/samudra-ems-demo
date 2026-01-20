@@ -131,15 +131,26 @@ if(adminLoginBtn){
     }
   });
 }
-// ===== SIGNATURE MODE (Tap logo 5 times) =====
-(function(){
-  const logo = document.getElementById("logoTap");
-  if(!logo) return;
+// ✅ HARD SIGNATURE MODE (Guaranteed)
+window.__semsTapCount = 0;
+window.__semsTapTimer = null;
 
-  let tapCount = 0;
-  let tapTimer = null;
+window.__semsSignatureTap = function(e){
+  try{
+    e.preventDefault();
+    e.stopPropagation();
+  }catch(err){}
 
-  function showSignature(){
+  window.__semsTapCount++;
+
+  clearTimeout(window.__semsTapTimer);
+  window.__semsTapTimer = setTimeout(() => {
+    window.__semsTapCount = 0;
+  }, 1000);
+
+  if(window.__semsTapCount >= 5){
+    window.__semsTapCount = 0;
+
     let toast = document.querySelector(".signature-toast");
     if(!toast){
       toast = document.createElement("div");
@@ -164,27 +175,4 @@ if(adminLoginBtn){
       toast.style.display = "none";
     }, 5500);
   }
-
-  // ✅ Works on mobile better
-  function registerTap(e){
-    // stops the logo click from triggering the <a href="#home"> jump
-    e.preventDefault();
-    e.stopPropagation();
-
-    tapCount++;
-
-    clearTimeout(tapTimer);
-    tapTimer = setTimeout(() => {
-      tapCount = 0;
-    }, 900);
-
-    if(tapCount >= 5){
-      tapCount = 0;
-      showSignature();
-    }
-  }
-
-  // ✅ both click + touch
-  logo.addEventListener("click", registerTap);
-  logo.addEventListener("touchstart", registerTap, { passive: false });
-})();
+};
