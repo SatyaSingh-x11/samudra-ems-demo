@@ -462,3 +462,14 @@ body.admin-page .navlinks a{
   .hamburger{display:block;}
   .navlinks{display:none;}
     }
+/* Admissions layout fix (mobile) */
+.admissions-grid{
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
+
+@media (max-width: 980px){
+  .admissions-grid{
+    grid-template-columns: 1fr;
+  }
+}
