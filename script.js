@@ -145,7 +145,7 @@ if(adminLoginBtn){
       toast = document.createElement("div");
       toast.className = "signature-toast";
       toast.innerHTML = `
-        ⚡ Built by <b>Satya </b> (Class 10)
+        ⚡ Built by <b>Satya Singh</b> (Class 10)
         <small>Project: SEMS Demo Website • Hosted on GitHub Pages</small>
         <small>
           Repo:
@@ -159,12 +159,18 @@ if(adminLoginBtn){
 
     toast.style.display = "block";
 
-    setTimeout(() => {
+    clearTimeout(window.__sigHideTimer);
+    window.__sigHideTimer = setTimeout(() => {
       toast.style.display = "none";
     }, 5500);
   }
 
-  logo.addEventListener("click", () => {
+  // ✅ Works on mobile better
+  function registerTap(e){
+    // stops the logo click from triggering the <a href="#home"> jump
+    e.preventDefault();
+    e.stopPropagation();
+
     tapCount++;
 
     clearTimeout(tapTimer);
@@ -176,5 +182,9 @@ if(adminLoginBtn){
       tapCount = 0;
       showSignature();
     }
-  });
+  }
+
+  // ✅ both click + touch
+  logo.addEventListener("click", registerTap);
+  logo.addEventListener("touchstart", registerTap, { passive: false });
 })();
