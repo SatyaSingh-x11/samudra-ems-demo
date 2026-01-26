@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gallery | Samudra English Medium School</title>
+  <title>Gallery | Samudra English Medium School (SEMS)</title>
+  <meta name="description" content="School gallery of Samudra English Medium School, Nanjangud." />
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="assets/logo.png">
 </head>
 
 <body>
 
-  <!-- TOP NOTICE (NO LINKS) -->
   <div class="topbar">
     <div class="container topbar-inner">
       <span class="badge">📸 Gallery</span>
-      <span class="topbar-text">School Memories & Moments</span>
+      <span class="topbar-text">School photos & memories</span>
     </div>
   </div>
 
-  <!-- NAVBAR -->
   <header class="navbar">
     <div class="container nav-inner">
       <a class="brand" href="index.html#home">
-        <img class="brand-logo" src="./assets/logo.png" onerror="this.style.display='none'" alt="SEMS Logo">
+        <img class="brand-logo" src="assets/logo.png" alt="SEMS Logo" onerror="this.style.display='none'">
         <div class="brand-text">
           <div class="brand-title">Samudra English Medium School</div>
           <div class="brand-sub">A Sea of Knowledge</div>
@@ -36,15 +36,18 @@
     </div>
   </header>
 
-  <!-- GALLERY -->
   <section class="section">
     <div class="container">
       <div class="section-head">
         <h2>Gallery</h2>
-        <p>Photos are automatically picked from Events + Gallery database.</p>
+        <p>Photos are updated using events and gallery database.</p>
       </div>
 
-      <div id="galleryGrid" class="gallery-grid"></div>
+      <div id="galleryGrid" class="cards" style="grid-template-columns:repeat(3,1fr);"></div>
+
+      <div class="construction">
+        <b>🔧 Under Construction:</b> More school photos will be added soon.
+      </div>
     </div>
   </section>
 
@@ -53,30 +56,30 @@
     const DATA = window.SEMS_DATA || { events: [], gallery: [] };
     const grid = document.getElementById("galleryGrid");
 
-    // Collect photos from events + gallery array
     const photos = [];
 
-    // Event photos
     (DATA.events || []).forEach(ev => {
       (ev.photos || []).forEach(p => photos.push(p));
     });
 
-    // Extra gallery photos
     (DATA.gallery || []).forEach(p => photos.push(p));
 
-    // Remove duplicates
     const unique = [...new Set(photos)].filter(Boolean);
 
     if(unique.length === 0){
       grid.innerHTML = `
         <div class="card">
           <h3>No photos yet ✅</h3>
-          <p class="muted">Admin will add event photos soon.</p>
+          <p class="muted">Admin can add event photos soon.</p>
         </div>
       `;
     } else {
       grid.innerHTML = unique.map(url => `
-        <img class="gimg" src="${url}" alt="School Photo" onerror="this.style.display='none'">
+        <div class="card" style="padding:10px;">
+          <img src="${url}" alt="School photo"
+            style="width:100%;height:180px;object-fit:cover;border-radius:18px;border:1px solid rgba(230,235,243,1);"
+            onerror="this.style.display='none'">
+        </div>
       `).join("");
     }
   </script>
