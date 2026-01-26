@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://satyasingh-x11.github.io/samudra-ems-demo/sitemap.xml
