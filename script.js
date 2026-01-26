@@ -1,4 +1,4 @@
-// script.js — SEMS Website 2.2
+// script.js — SEMS Website 3.0
 
 function escapeHtml(str){
   return String(str ?? "").replace(/[&<>"']/g, (m) => ({
@@ -6,89 +6,49 @@ function escapeHtml(str){
   }[m]));
 }
 
-// ===== DATA =====
-const DATA = window.SEMS_DATA || {
-  heroPhoto: "",
-  thoughts: [],
-  reviews: [],
-  events: [],
-  gallery: []
-};
+const DATA = window.SEMS_DATA || {};
 
-// ===== HERO BACKGROUND PHOTO =====
+// ✅ HERO BG
 const heroBg = document.getElementById("heroBg");
 if(heroBg){
-  const url = DATA.heroPhoto?.trim();
+  const url = (DATA.heroPhoto || "").trim();
   if(url){
     heroBg.style.backgroundImage = `url("${url}")`;
   } else {
-    // fallback (soft gradient effect if no photo)
     heroBg.style.backgroundImage = `linear-gradient(135deg, rgba(29,78,216,0.20), rgba(7,26,61,0.20))`;
   }
 }
 
-// ===== THOUGHT =====
+// ✅ THOUGHT
 const thoughtBox = document.getElementById("thoughtBox");
 if(thoughtBox){
-  const thought = (DATA.thoughts && DATA.thoughts.length > 0)
-    ? DATA.thoughts[0]
-    : "A Sea of Knowledge 📚";
-
+  const thought = (DATA.thoughts && DATA.thoughts.length) ? DATA.thoughts[0] : "A Sea of Knowledge 📚";
   thoughtBox.innerHTML = `💡 <b>Thought:</b> ${escapeHtml(thought)}`;
 }
 
-// ===== REVIEWS (HOME) =====
-const reviewsBox = document.getElementById("reviewsBox");
-if(reviewsBox){
-  const reviews = (DATA.reviews || []).slice(0, 3);
-
-  if(reviews.length === 0){
-    reviewsBox.innerHTML = `
-      <div class="card">
-        <h3>No feedback yet ✅</h3>
-        <p class="muted">Admin will add parents feedback soon.</p>
-      </div>
-    `;
-  } else {
-    reviewsBox.innerHTML = "";
-    reviews.forEach(r => {
-      const stars = Math.max(1, Math.min(5, Number(r.stars || 5)));
-      const div = document.createElement("div");
-      div.className = "card";
-      div.innerHTML = `
-        <h3>${"⭐".repeat(stars)} ${escapeHtml(r.name || "Parent")}</h3>
-        <p>${escapeHtml(r.text || "")}</p>
-      `;
-      reviewsBox.appendChild(div);
-    });
-  }
-}
-
-// ===== LATEST EVENTS (HOME) =====
+// ✅ HOME EVENTS
 const homeEvents = document.getElementById("homeEvents");
 if(homeEvents){
-  const events = DATA.events || [];
-  const latest = events.slice().reverse().slice(0, 3);
-
-  if(latest.length === 0){
+  const events = (DATA.events || []).slice().reverse().slice(0, 3);
+  if(events.length === 0){
     homeEvents.innerHTML = `
       <div class="card">
         <h3>No events yet ✅</h3>
-        <p class="muted">Admin will update events soon.</p>
+        <p class="muted">Events will be updated soon.</p>
       </div>
     `;
   } else {
     homeEvents.innerHTML = "";
-    latest.forEach(ev => {
+    events.forEach(ev => {
       const div = document.createElement("div");
       div.className = "event";
       div.innerHTML = `
-        <div class="event-tag">📢</div>
-        <div>
-          <h3>${escapeHtml(ev.title || "Event")}</h3>
-          <p class="muted"><b>${escapeHtml(ev.date || "")}</b></p>
-          <p>${escapeHtml(ev.desc || "")}</p>
-          ${ev.featured ? `<span class="badge-featured">🔥 Featured</span>` : ""}
+        <div class="event-tag">📌</div>
+        <div style="width:100%">
+          <h3>${escapeHtml(ev.title)} ${ev.featured ? "🔥" : ""}</h3>
+          <p class="muted" style="margin:6px 0 10px;"><b>${escapeHtml(ev.date)}</b></p>
+          <p class="muted" style="margin:0; line-height:1.7;">${escapeHtml(ev.desc)}</p>
+          ${ev.featured ? `<span class="badge-featured">Featured</span>` : ""}
         </div>
       `;
       homeEvents.appendChild(div);
@@ -96,83 +56,94 @@ if(homeEvents){
   }
 }
 
-// ===== ADMIN LOGIN =====
-const ADMIN_USERS = [
-  { user: "Satya41", pass: "qaZ@123" },
-  { user: "Sems2016", pass: "educomp@12345" },
-];
-
-const adminModal = document.getElementById("adminModal");
-const adminOpenBtn = document.getElementById("adminOpenBtn");
-const adminLoginBtn = document.getElementById("adminLoginBtn");
-const adminCloseBtn = document.getElementById("adminCloseBtn");
-
-if(adminOpenBtn && adminModal){
-  adminOpenBtn.addEventListener("click", () => adminModal.classList.add("show"));
+// ✅ HOME BLOGS (if section exists)
+const homeBlogs = document.getElementById("homeBlogs");
+if(homeBlogs){
+  const blogs = (DATA.blogs || []).slice().reverse().slice(0, 3);
+  if(blogs.length === 0){
+    homeBlogs.innerHTML = `
+      <div class="card">
+        <h3>No blogs yet ✅</h3>
+        <p class="muted">Blogs will be added soon.</p>
+      </div>
+    `;
+  } else {
+    homeBlogs.innerHTML = "";
+    blogs.forEach(b => {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `
+        <h3>${escapeHtml(b.title)}</h3>
+        <p class="muted" style="margin:6px 0 10px;"><b>${escapeHtml(b.date)}</b> • ${escapeHtml(b.author || "SEMS")}</p>
+        <p class="muted" style="line-height:1.7">${escapeHtml(b.excerpt || "")}</p>
+        <a class="btn small primary" href="blog.html?id=${encodeURIComponent(b.id)}">Read More →</a>
+      `;
+      homeBlogs.appendChild(div);
+    });
+  }
 }
 
-if(adminCloseBtn && adminModal){
-  adminCloseBtn.addEventListener("click", () => adminModal.classList.remove("show"));
-}
+// ✅ DEMO ENQUIRY SAVE (LOCAL)
+const demoBtn = document.getElementById("demoSubmitBtn");
+if(demoBtn){
+  demoBtn.addEventListener("click", () => {
+    const sName = (document.getElementById("sName")?.value || "").trim();
+    const sClass = (document.getElementById("sClass")?.value || "").trim();
+    const sPhone = (document.getElementById("sPhone")?.value || "").trim();
+    const sMsg = (document.getElementById("sMsg")?.value || "").trim();
 
-if(adminLoginBtn){
-  adminLoginBtn.addEventListener("click", () => {
-    const u = document.getElementById("adminUser").value.trim();
-    const p = document.getElementById("adminPass").value.trim();
-
-    const ok = ADMIN_USERS.some(acc => acc.user === u && acc.pass === p);
-
-    if(ok){
-      localStorage.setItem("sems_admin_logged", "yes");
-      adminModal.classList.remove("show");
-      window.location.href = "admin.html";
-    } else {
-      alert("❌ Wrong username or password");
+    if(!sName || !sClass || !sPhone){
+      alert("❌ Please fill Student Name, Class and Phone.");
+      return;
     }
+
+    const enquiries = JSON.parse(localStorage.getItem("sems_enquiries") || "[]");
+    enquiries.push({
+      name: sName,
+      class: sClass,
+      phone: sPhone,
+      message: sMsg,
+      time: new Date().toISOString()
+    });
+
+    localStorage.setItem("sems_enquiries", JSON.stringify(enquiries));
+    alert("✅ Enquiry saved (Demo). Admin can view it locally.");
+
+    document.getElementById("sName").value = "";
+    document.getElementById("sClass").value = "";
+    document.getElementById("sPhone").value = "";
+    document.getElementById("sMsg").value = "";
   });
 }
-// ✅ HARD SIGNATURE MODE (Guaranteed)
-window.__semsTapCount = 0;
-window.__semsTapTimer = null;
 
-window.__semsSignatureTap = function(e){
-  try{
+/* ✅ SIGNATURE MODE (works always) */
+(function(){
+  const logo = document.getElementById("logoTap");
+  const toast = document.getElementById("sigToast");
+  if(!logo || !toast) return;
+
+  let count = 0;
+  let timer = null;
+
+  function show(){
+    toast.style.display = "block";
+    clearTimeout(window.__sigHide);
+    window.__sigHide = setTimeout(() => {
+      toast.style.display = "none";
+    }, 4500);
+  }
+
+  logo.addEventListener("click", (e) => {
     e.preventDefault();
     e.stopPropagation();
-  }catch(err){}
 
-  window.__semsTapCount++;
+    count++;
+    clearTimeout(timer);
+    timer = setTimeout(() => count = 0, 900);
 
-  clearTimeout(window.__semsTapTimer);
-  window.__semsTapTimer = setTimeout(() => {
-    window.__semsTapCount = 0;
-  }, 1000);
-
-  if(window.__semsTapCount >= 5){
-    window.__semsTapCount = 0;
-
-    let toast = document.querySelector(".signature-toast");
-    if(!toast){
-      toast = document.createElement("div");
-      toast.className = "signature-toast";
-      toast.innerHTML = `
-        ⚡ Built by <b>Satya Singh</b> (Class 10)
-        <small>Project: SEMS Demo Website • Hosted on GitHub Pages</small>
-        <small>
-          Repo:
-          <a href="https://github.com/satyasingh-x11/samudra-ems-demo" target="_blank">
-            github.com/satyasingh-x11/samudra-ems-demo
-          </a>
-        </small>
-      `;
-      document.body.appendChild(toast);
+    if(count >= 5){
+      count = 0;
+      show();
     }
-
-    toast.style.display = "block";
-
-    clearTimeout(window.__sigHideTimer);
-    window.__sigHideTimer = setTimeout(() => {
-      toast.style.display = "none";
-    }, 5500);
-  }
-};
+  });
+})();
