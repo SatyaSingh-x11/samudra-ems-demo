@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Events | Samudra English Medium School</title>
+  <title>Events | Samudra English Medium School (SEMS)</title>
+  <meta name="description" content="Latest events and school programs of Samudra English Medium School, Nanjangud." />
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="assets/logo.png">
 </head>
 
 <body>
 
-  <!-- TOP NOTICE (NO LINKS) -->
   <div class="topbar">
     <div class="container topbar-inner">
-      <span class="badge">📢 Events & Tours</span>
-      <span class="topbar-text">Programs • Celebrations • Student Life</span>
+      <span class="badge">📢 Events</span>
+      <span class="topbar-text">Programs • Tours • Celebrations</span>
     </div>
   </div>
 
-  <!-- NAVBAR -->
   <header class="navbar">
     <div class="container nav-inner">
       <a class="brand" href="index.html#home">
-        <img class="brand-logo" src="./assets/logo.png" onerror="this.style.display='none'" alt="SEMS Logo">
+        <img class="brand-logo" src="assets/logo.png" alt="SEMS Logo" onerror="this.style.display='none'">
         <div class="brand-text">
           <div class="brand-title">Samudra English Medium School</div>
           <div class="brand-sub">A Sea of Knowledge</div>
@@ -36,15 +36,18 @@
     </div>
   </header>
 
-  <!-- EVENTS LIST -->
   <section class="section">
     <div class="container">
       <div class="section-head">
         <h2>Latest Events</h2>
-        <p>Every program is a memory. Every tour is a lesson.</p>
+        <p>School updates will be posted here for parents and students.</p>
       </div>
 
       <div id="eventsList" class="events"></div>
+
+      <div class="construction">
+        <b>🔧 Under Construction:</b> More events will be added soon.
+      </div>
     </div>
   </section>
 
@@ -59,43 +62,34 @@
       }[m]));
     }
 
-    function render(){
-      const events = (DATA.events || []).slice().reverse();
+    const events = (DATA.events || []).slice().reverse();
 
-      if(events.length === 0){
-        list.innerHTML = `
-          <div class="card">
-            <h3>No events posted yet ✅</h3>
-            <p class="muted">Admin will update school events soon.</p>
-          </div>
-        `;
-        return;
-      }
-
+    if(events.length === 0){
+      list.innerHTML = `
+        <div class="card">
+          <h3>No events yet ✅</h3>
+          <p class="muted">Updates will be available soon.</p>
+        </div>
+      `;
+    } else {
       list.innerHTML = "";
-      events.forEach(ev=>{
-        const photos = (ev.photos || []).slice(0, 6);
+      events.forEach(ev => {
+        const div = document.createElement("div");
+        div.className = "event";
 
+        const photos = (ev.photos || []).slice(0, 6);
         const photosHtml = photos.length
-          ? `<div class="event-photos">
-              ${photos.map(url =>
-                `<img class="gimg" src="${esc(url)}" alt="Event photo" onerror="this.style.display='none'">`
-              ).join("")}
+          ? `<div style="margin-top:12px; display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">
+              ${photos.map(u => `<img src="${esc(u)}" style="width:100%;height:120px;object-fit:cover;border-radius:18px;border:1px solid rgba(230,235,243,1);" onerror="this.style.display='none'">`).join("")}
             </div>`
           : "";
 
-        const div = document.createElement("div");
-        div.className = "event";
         div.innerHTML = `
           <div class="event-tag">📌</div>
           <div style="width:100%">
             <h3>${esc(ev.title)} ${ev.featured ? "🔥" : ""}</h3>
-            <p style="margin:6px 0 10px; color:#5b6b85; font-weight:900;">
-              ${esc(ev.date)}
-            </p>
-            <p style="margin:0; color:#5b6b85; line-height:1.7; font-weight:650;">
-              ${esc(ev.desc)}
-            </p>
+            <p class="muted" style="margin:6px 0 10px;"><b>${esc(ev.date)}</b></p>
+            <p class="muted" style="margin:0; line-height:1.7;">${esc(ev.desc)}</p>
             ${ev.featured ? `<span class="badge-featured">Featured</span>` : ""}
             ${photosHtml}
           </div>
@@ -104,8 +98,6 @@
         list.appendChild(div);
       });
     }
-
-    render();
   </script>
 
 </body>
