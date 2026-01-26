@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | SEMS</title>
+  <meta name="description" content="Blog post from Samudra English Medium School, Nanjangud." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="assets/logo.png">
+</head>
+
+<body>
+
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <span class="badge">📝 Blog</span>
+      <span class="topbar-text">SEMS • A Sea of Knowledge</span>
+    </div>
+  </div>
+
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html#home">
+        <img class="brand-logo" src="assets/logo.png" alt="SEMS Logo" onerror="this.style.display='none'">
+        <div class="brand-text">
+          <div class="brand-title">Samudra English Medium School</div>
+          <div class="brand-sub">A Sea of Knowledge</div>
+        </div>
+      </a>
+
+      <nav class="navlinks">
+        <a href="blogs.html">Blogs</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+        <a class="nav-cta" href="index.html#admissions">Admissions</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="blogTitle">Loading...</h2>
+        <p id="blogMeta" class="muted"></p>
+      </div>
+
+      <div class="card" style="max-width:900px;">
+        <div id="blogContent" class="muted" style="line-height:1.8;"></div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <a class="btn small ghost" href="blogs.html">← Back to Blogs</a>
+      </div>
+    </div>
+  </section>
+
+  <script src="data.js"></script>
+  <script>
+    const DATA = window.SEMS_DATA || { blogs: [] };
+
+    function esc(s){
+      return String(s ?? "").replace(/[&<>"']/g, (m) => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    // ✅ very simple markdown-style support
+    function formatContent(text){
+      const t = String(text || "");
+
+      // Convert ### headings
+      let out = t.replace(/^### (.*)$/gm, "<h3 style='margin-top:18px;'>$1</h3>");
+
+      // Convert bullet list
+      out = out.replace(/^\- (.*)$/gm, "<li>$1</li>");
+      out = out.replace(/(<li>.*<\/li>\n?)+/g, (m) => `<ul style="margin:10px 0 10px 18px;">${m}</ul>`);
+
+      // Line breaks
+      out = out.replace(/\n/g, "<br>");
+
+      return out;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    const blog = (DATA.blogs || []).find(b => b.id === id);
+
+    const titleEl = document.getElementById("blogTitle");
+    const metaEl = document.getElementById("blogMeta");
+    const contentEl = document.getElementById("blogContent");
+
+    if(!blog){
+      titleEl.textContent = "Blog not found ❌";
+      metaEl.textContent = "";
+      contentEl.innerHTML = "The blog you are looking for does not exist.";
+    } else {
+      document.title = blog.title + " | SEMS";
+
+      titleEl.textContent = blog.title;
+      metaEl.innerHTML = `<b>${esc(blog.date)}</b> • ${esc(blog.author || "SEMS Team")}`;
+      contentEl.innerHTML = formatContent(esc(blog.content || ""));
+    }
+  </script>
+
+</body>
+</html>
